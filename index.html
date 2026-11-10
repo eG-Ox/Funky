@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Catálogo de liquidación de Sabores Funky. Ropa para bebé con fotos, precios, descuentos y tallas por modelo.">
+  <title>Sabores Funky | Catálogo de liquidación</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+  <script src="catalogo.js" defer></script>
+</head>
+<body id="inicio">
+  <header class="site-header wrap">
+    <a class="brand" href="#inicio"><span aria-hidden="true">✦</span> Sabores Funky</a>
+    <a class="nav-link" href="#coleccion">Catálogo</a>
+  </header>
+
+  <main class="wrap">
+    <section class="hero" aria-labelledby="titulo">
+      <div class="hero-copy">
+        <p class="eyebrow"><span></span> Ropa para bebé</p>
+        <h1 id="titulo">Liquidación<br><em>final.</em></h1>
+        <p class="intro">Encuentra los modelos del catálogo Sabores Funky con sus fotos, precios y tallas.</p>
+        <a class="button" href="#coleccion">Ver catálogo <span aria-hidden="true">↓</span></a>
+      </div>
+      <figure class="hero-photo">
+        <img src="assets/catalogo/05.webp" width="710" height="852" alt="Bebé con la pijama Limone, estampada con limones amarillos" fetchpriority="high">
+        <figcaption>Modelo Limone</figcaption>
+      </figure>
+    </section>
+
+    <section class="collection" id="coleccion" aria-labelledby="coleccion-titulo">
+      <p class="eyebrow"><span></span> Sabores Funky</p>
+      <h2 id="coleccion-titulo">Catálogo completo</h2>
+      <p class="collection-intro">Los precios y las tallas corresponden a la liquidación del catálogo.</p>
+      <nav id="categorias" aria-label="Categorías del catálogo"></nav>
+      <div id="productos"></div>
+      <noscript><p>Activa JavaScript para ver los productos y sus galerías.</p></noscript>
+    </section>
+  </main>
+
+  <dialog class="gallery" aria-labelledby="galeria-titulo">
+    <header class="gallery-header">
+      <h2 id="galeria-titulo"></h2>
+      <form method="dialog"><button class="gallery-close" aria-label="Cerrar galería" autofocus>×</button></form>
+    </header>
+    <figure>
+      <img id="galeria-foto" alt="">
+      <figcaption id="galeria-pie" aria-live="polite"></figcaption>
+    </figure>
+    <div class="gallery-controls">
+      <button type="button" id="galeria-anterior">← Anterior</button>
+      <button type="button" id="galeria-siguiente">Siguiente →</button>
+    </div>
+  </dialog>
+
+  <footer class="site-footer wrap">
+    <p class="brand"><span aria-hidden="true">✦</span> Sabores Funky</p>
+    <a class="nav-link" href="#inicio">Volver arriba ↑</a>
+  </footer>
+</body>
+</html>
