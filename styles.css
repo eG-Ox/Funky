@@ -117,6 +117,10 @@ h1 em { color: #215e7a; font-weight: inherit; }
 .button:hover { background: #ffda4e; }
 .button span { font-size: 1.15rem; }
 
+.hero-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.whatsapp-button { background: #17663e; color: white; }
+.whatsapp-button:hover { background: #0e4e2e; }
+
 .hero-photo { position: relative; margin: 0; }
 
 .hero-photo img {
@@ -173,7 +177,13 @@ h2 { font-size: clamp(2.4rem, 5vw, 4rem); letter-spacing: -.05em; }
   list-style: none;
 }
 
-.product-card { border: 1px solid var(--line); border-radius: 16px; background: white; }
+.product-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: white;
+}
 
 .product-photo {
   position: relative;
@@ -229,6 +239,23 @@ button:focus-visible { outline: 3px solid #00578a; outline-offset: 3px; }
 .product-detail, .last-item { margin: 7px 0 0; font-size: .82rem; line-height: 1.45; }
 .product-detail { color: var(--muted); }
 .last-item { color: #8f2342; font-weight: 750; }
+
+.order-link {
+  display: grid;
+  place-items: center;
+  min-height: 44px;
+  margin: auto 10px 10px;
+  padding: 6px 8px;
+  border-radius: 9px;
+  background: #e7f5ec;
+  color: #144e32;
+  font-size: .8rem;
+  font-weight: 750;
+  text-align: center;
+  text-decoration: none;
+}
+
+.order-link:hover { background: #d2eadb; text-decoration: underline; }
 
 .gallery {
   width: min(620px, calc(100% - 24px));

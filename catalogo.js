@@ -94,6 +94,13 @@ const catalogo = [
 ];
 
 const rutaFoto = foto => `assets/catalogo/${foto}.webp`;
+const whatsapp = document.querySelector('#consulta-whatsapp').href;
+
+function enlacePedido(modelo, categoria) {
+  const variante = modelo.variante ? ` (${modelo.variante})` : '';
+  const mensaje = `Hola, me interesa el modelo ${modelo.nombre}${variante} de la categoría ${categoria}. ¿Está disponible? Quisiera hacer un pedido.`;
+  return `${whatsapp}?text=${encodeURIComponent(mensaje)}`;
+}
 
 document.querySelector('#categorias').innerHTML = catalogo.map(({ id, categoria }) =>
   `<a href="#${id}">${categoria}</a>`
@@ -123,6 +130,8 @@ document.querySelector('#productos').innerHTML = catalogo.map(({ id, categoria, 
             ${modelo.ultima ? '<p class="last-item">Última prenda</p>' : ''}
             ${modelo.nota ? `<p class="product-detail">${modelo.nota}</p>` : ''}
           </div>
+          <a class="order-link" href="${enlacePedido(modelo, categoria)}" target="_blank" rel="noopener noreferrer"
+             aria-label="Pedir por WhatsApp: ${modelo.nombre}${modelo.variante ? ', ' + modelo.variante : ''}, ${categoria}">Pedir por WhatsApp</a>
         </li>
       `).join('')}
     </ul>
