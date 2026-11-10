@@ -102,6 +102,108 @@ function enlacePedido(modelo, categoria) {
   return `${whatsapp}?text=${encodeURIComponent(mensaje)}`;
 }
 
+const totalPaginas = 42;
+const lector = document.querySelector('#lector');
+const barraLector = document.querySelector('.reader-toolbar');
+const paginasPdf = document.querySelector('#paginas-pdf');
+const continuo = document.querySelector('#modo-continuo');
+const libro = document.querySelector('#modo-libro');
+const navegacion = document.querySelector('.reader-navigation');
+const selectorPagina = document.querySelector('#numero-pagina');
+const paginaAnterior = document.querySelector('#pagina-anterior');
+const paginaSiguiente = document.querySelector('#pagina-siguiente');
+const modelosPorPagina = new Map();
+let paginaActual = 1;
+
+for (const { categoria, modelos } of catalogo) {
+  for (const modelo of modelos) {
+    for (const foto of modelo.fotos) {
+      const numero = foto === 'portada' ? 1 : Number(foto.slice(0, 2));
+      const productos = modelosPorPagina.get(numero) ?? [];
+      productos.push({ modelo, categoria });
+      modelosPorPagina.set(numero, productos);
+    }
+  }
+}
+
+const numeros = Array.from({ length: totalPaginas }, (_, indice) => indice + 1);
+selectorPagina.innerHTML = numeros.map(numero =>
+  `<option value="${numero}">${numero} de ${totalPaginas}</option>`
+).join('');
+
+paginasPdf.innerHTML = numeros.map(numero => {
+  const src = `assets/pdf/${String(numero).padStart(2, '0')}.webp`;
+  const productos = modelosPorPagina.get(numero) ?? [];
+  const modelos = [...new Set(productos.map(({ modelo }) => modelo.nombre))].join(', ');
+  const descripcion = numero === 1 ? 'Portada de Sabores Funky' : modelos || 'Catálogo Sabores Funky';
+
+  return `
+    <figure class="pdf-page" id="pagina-${numero}">
+      <img src="${src}" width="1200" height="1441" alt="Página ${numero}. ${descripcion}."
+           ${numero === 1 ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">
+      <figcaption>
+        <div class="page-caption">
+          <span>Página ${numero} de ${totalPaginas}</span>
+          <a class="nav-link" href="${src}" target="_blank" rel="noopener noreferrer"
+             aria-label="Ampliar página ${numero}">Ampliar página ↗</a>
+        </div>
+        ${numero === 1 ? '' : productos.map(({ modelo, categoria }) => `
+          <a class="order-link" href="${enlacePedido(modelo, categoria)}" target="_blank" rel="noopener noreferrer">
+            Pedir ${modelo.nombre}${modelo.variante ? ' · ' + modelo.variante : ''} por WhatsApp
+          </a>
+        `).join('')}
+      </figcaption>
+    </figure>`;
+}).join('');
+
+const hojas = [...paginasPdf.children];
+
+function distanciaPagina() {
+  return hojas[paginaActual - 1].getBoundingClientRect().top -
+    Math.max(barraLector.getBoundingClientRect().bottom, barraLector.offsetHeight);
+}
+
+function mostrarPagina(numero) {
+  paginaActual = Math.min(totalPaginas, Math.max(1, numero));
+  hojas.forEach((hoja, indice) => { hoja.hidden = indice !== paginaActual - 1; });
+  selectorPagina.value = String(paginaActual);
+  paginaAnterior.disabled = paginaActual === 1;
+  paginaSiguiente.disabled = paginaActual === totalPaginas;
+  const distancia = distanciaPagina();
+  if (distancia < 0) window.scrollBy(0, distancia);
+}
+
+continuo.addEventListener('click', () => {
+  if (navegacion.hidden) return;
+  continuo.setAttribute('aria-pressed', 'true');
+  libro.setAttribute('aria-pressed', 'false');
+  navegacion.hidden = true;
+  hojas.forEach(hoja => { hoja.hidden = false; });
+  if (paginaActual > 1) {
+    window.scrollBy(0, hojas[paginaActual - 1].getBoundingClientRect().top - barraLector.offsetHeight);
+  }
+});
+
+libro.addEventListener('click', () => {
+  if (!navegacion.hidden) return;
+  const bordeBarra = barraLector.getBoundingClientRect().bottom;
+  const hojaVisible = hojas.findIndex(hoja => hoja.getBoundingClientRect().bottom > bordeBarra + 24);
+  continuo.setAttribute('aria-pressed', 'false');
+  libro.setAttribute('aria-pressed', 'true');
+  navegacion.hidden = false;
+  mostrarPagina(hojaVisible + 1);
+});
+
+paginaAnterior.addEventListener('click', () => mostrarPagina(paginaActual - 1));
+paginaSiguiente.addEventListener('click', () => mostrarPagina(paginaActual + 1));
+selectorPagina.addEventListener('change', () => mostrarPagina(Number(selectorPagina.value)));
+
+lector.addEventListener('keydown', evento => {
+  if (navegacion.hidden || evento.target === selectorPagina) return;
+  if (evento.key === 'ArrowLeft') mostrarPagina(paginaActual - 1);
+  if (evento.key === 'ArrowRight') mostrarPagina(paginaActual + 1);
+});
+
 document.querySelector('#categorias').innerHTML = catalogo.map(({ id, categoria }) =>
   `<a href="#${id}">${categoria}</a>`
 ).join('');

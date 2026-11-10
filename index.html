@@ -12,27 +12,32 @@
 <body id="inicio">
   <header class="site-header wrap">
     <a class="brand" href="#inicio"><span aria-hidden="true">✦</span> Sabores Funky</a>
-    <a class="nav-link" href="#coleccion">Catálogo</a>
+    <a class="nav-link" href="#coleccion">Ver por productos</a>
   </header>
 
   <main class="wrap">
-    <section class="hero" aria-labelledby="titulo">
-      <div class="hero-copy">
-        <p class="eyebrow"><span></span> Ropa para bebé</p>
-        <h1 id="titulo">Liquidación<br><em>final.</em></h1>
-        <p class="intro">Encuentra los modelos del catálogo Sabores Funky con sus fotos, precios y tallas.</p>
-        <div class="hero-actions">
-          <a class="button" href="#coleccion">Ver catálogo <span aria-hidden="true">↓</span></a>
-          <a class="button whatsapp-button" id="consulta-whatsapp" href="https://wa.me/51934097593" target="_blank" rel="noopener noreferrer">Consultar por WhatsApp</a>
+    <section class="reader" id="lector" aria-labelledby="titulo">
+      <header class="reader-heading">
+        <h1 id="titulo">Catálogo de liquidación</h1>
+        <a class="button whatsapp-button" id="consulta-whatsapp" href="https://wa.me/51934097593" target="_blank" rel="noopener noreferrer">Consultar por WhatsApp</a>
+      </header>
+      <div class="reader-toolbar">
+        <div class="reader-modes" role="group" aria-label="Modo de lectura">
+          <button type="button" id="modo-continuo" aria-pressed="true">Vista continua</button>
+          <button type="button" id="modo-libro" aria-pressed="false">Modo libro</button>
+        </div>
+        <div class="reader-navigation" aria-label="Navegación del libro" role="group" hidden>
+          <button type="button" id="pagina-anterior" aria-label="Página anterior">←</button>
+          <select id="numero-pagina" aria-label="Ir a la página"></select>
+          <button type="button" id="pagina-siguiente" aria-label="Página siguiente">→</button>
         </div>
       </div>
-      <figure class="hero-photo">
-        <img src="assets/catalogo/05.webp" width="710" height="852" alt="Bebé con la pijama Limone, estampada con limones amarillos" fetchpriority="high">
-        <figcaption>Modelo Limone</figcaption>
-      </figure>
+      <div id="paginas-pdf"></div>
+      <noscript><p>Activa JavaScript para ver las páginas del catálogo.</p></noscript>
     </section>
 
     <section class="collection" id="coleccion" aria-labelledby="coleccion-titulo">
+      <a class="nav-link" href="#lector">↑ Volver al catálogo original</a>
       <p class="eyebrow"><span></span> Sabores Funky</p>
       <h2 id="coleccion-titulo">Catálogo completo</h2>
       <p class="collection-intro">Los precios y las tallas corresponden a la liquidación del catálogo.</p>
